@@ -1,4 +1,5 @@
 import "server-only";
+import type { Assignments } from "./event";
 
 /**
  * Server-side only: these calls go to the backend directly, not through the /api proxy.
@@ -27,4 +28,18 @@ async function getJson<T>(
 
 export function fetchPolls(): Promise<Poll[]> {
   return getJson("/api/polls", "Polls");
+}
+
+/**
+ * The visitor's variant for every running experiment. The backend assigns it on the first call
+ * and returns the same values afterwards.
+ */
+export function fetchAssignments(
+  visitorId: string,
+): Promise<Assignments> {
+  return getJson(
+    `/api/visitors/${encodeURIComponent(visitorId)}/assignments`,
+    "Assignments",
+    { cache: "no-store" },
+  );
 }
