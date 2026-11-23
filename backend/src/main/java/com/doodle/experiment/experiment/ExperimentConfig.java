@@ -1,6 +1,7 @@
 package com.doodle.experiment.experiment;
 
 import java.security.SecureRandom;
+import java.time.Clock;
 import java.util.random.RandomGenerator;
 
 import org.springframework.context.annotation.Bean;
@@ -15,5 +16,10 @@ public class ExperimentConfig {
     VariantPicker variantPicker() {
         RandomGenerator random = new SecureRandom();
         return variants -> variants.get(random.nextInt(variants.size()));
+    }
+
+    @Bean
+    Clock clock() {
+        return Clock.systemUTC();
     }
 }
