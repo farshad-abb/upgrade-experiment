@@ -13,8 +13,11 @@ export async function UpgradeButton() {
   const visitorId = (await cookies()).get(VISITOR_COOKIE)?.value;
   const variant = isVisitorId(visitorId) ? await getVariant(visitorId) : null;
 
-  // Without a variant we still show the default version.
-  return <UpgradeButtonView variant={variant ?? "A"} />;
+  // Without a variant we still show the default version, but record nothing:
+  // a visitor without an assignment must not end up in the results.
+  return (
+    <UpgradeButtonView variant={variant ?? "A"} tracked={variant !== null} />
+  );
 }
 
 async function getVariant(visitorId: string): Promise<Variant | null> {
