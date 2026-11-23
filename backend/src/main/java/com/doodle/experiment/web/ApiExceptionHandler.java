@@ -14,4 +14,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     ProblemDetail badRequest(BadRequestException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    ProblemDetail notFound(NotFoundException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+    }
 }
